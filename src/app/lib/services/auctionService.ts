@@ -21,8 +21,25 @@ export type AuctionResponse = {
         totalPage: number;
     }
 }
-export async function getAllAuctions(): Promise<AuctionResponse> {
-    const response = await fetch(`${api_url}/auction`);
+
+export type QueryParams ={
+    status?:string;
+    maxPrice?:number;
+    minPrice?:number
+}
+
+export async function getAllAuctions(queryParam?:QueryParams): Promise<AuctionResponse> {
+    const searchParams = new URLSearchParams()
+    if(queryParam?.status){
+        searchParams.set("status",queryParam.status)
+    }
+     if(queryParam?.maxPrice){
+        searchParams.set("maxPrice",queryParam.maxPrice.toString())
+    }
+     if(queryParam?.minPrice){
+        searchParams.set("minPrice",queryParam.minPrice.toString())
+    }
+    const response = await fetch(`${api_url}/auction?${searchParams.toString()}`);
     if (!response) {
         throw new Error("Auction fetch failed");
     }
