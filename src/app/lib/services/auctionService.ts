@@ -29,3 +29,11 @@ export async function getAllAuctions(): Promise<AuctionResponse> {
     return response.json();
 }
 
+export async function getAuctionById(id: string): Promise<Auction> {
+    const response = await fetch(`${api_url}/auction/${id}`);
+    if (!response) {
+        throw new Error("Auction fetch failed");
+    }
+    return response.json();
+}
+

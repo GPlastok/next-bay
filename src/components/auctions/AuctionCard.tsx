@@ -9,7 +9,7 @@ export default function AuctionCard({ auction }: { auction: Auction; }) {
                 <CardDescription>{auction.description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <p>End Date: {auction.endDate.toString()}</p>
+                <p>End Date: {new Date(auction.endDate).toDateString()}</p>
                 <p>Selling Price: {auction.currentPrice}</p>
             </CardContent>
         </Card>
