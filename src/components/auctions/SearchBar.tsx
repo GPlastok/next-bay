@@ -17,9 +17,13 @@ export default function SearchBar() {
   const minPrice = searchParams.get("minPrice") ?? "";
   const maxPrice = searchParams.get("maxPrice") ?? "";
 
+  function updateStatus(value: string) {
+    const params = new URLSearchParams(searchParams.toString());
+  }
+
   return (
     <div>
-      <Select value={status} onValueChange={(event) => {}}>
+      <Select value={status} onValueChange={updateStatus}>
         <SelectTrigger className="w-48">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
