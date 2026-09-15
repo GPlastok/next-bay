@@ -67,7 +67,7 @@ export async function getAuctionById(id: string): Promise<Auction> {
 export async function createAuction(
   auction: Omit<Auction, "id" | "createdAt">,
 ) {
-  const response = await fetchAPI(`${api_url}/user`, {
+  const response = await fetchAPI(`${api_url}/auction`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
