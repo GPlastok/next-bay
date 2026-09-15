@@ -10,7 +10,10 @@ import Link from "next/link";
 
 export default function AuctionCard({ auction }: { auction: Auction }) {
   return (
-    <Card key={auction.id} className="bg-gray-100 dark:bg-gray-800">
+    <Card
+      key={auction.id}
+      className="bg-gray-100 dark:bg-gray-800 mb-4 rounded-md"
+    >
       <CardHeader>
         <CardTitle>
           <Link href={`auctions/${auction.id}`}>{auction.title}</Link>

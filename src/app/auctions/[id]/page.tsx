@@ -1,6 +1,7 @@
 import { getAuctionById } from "@/app/lib/services/auctionService";
 import { notFound } from "next/navigation";
 import OfferList from "@/components/offers/OfferList";
+import LinkBack from "@/components/auctions/LinkBack";
 
 export default async function AuctionDetailPage({
   params,
@@ -13,6 +14,7 @@ export default async function AuctionDetailPage({
   }
   return (
     <div>
+      <LinkBack />
       <h1>{auction.title}</h1>
       <p>{auction.description}</p>
       <p>End Date: {new Date(auction.endDate).toDateString()}</p>

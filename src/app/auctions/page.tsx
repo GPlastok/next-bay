@@ -3,6 +3,7 @@ import { getAllAuctions, QueryParams } from "../lib/services/auctionService";
 import SearchBar from "@/components/auctions/SearchBar";
 import LogoutLink from "@/components/auth/Logout";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 export default async function AllAuctionsPage({
   searchParams,
@@ -14,12 +15,16 @@ export default async function AllAuctionsPage({
   const cookieStore = await cookies();
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      {cookieStore.get("session_token")?.value ? <LogoutLink /> : ""}
-      <SearchBar />
-      {auctions.data.map((auction) => (
-        <AuctionCard key={auction.id} auction={auction} />
-      ))}
+    <div>
+      <div className="flex items-center justify-center mb-10">
+        <SearchBar />
+        <Link href={"/auctions/new"}>New Auction</Link>
+      </div>
+      <div className="m-10 sm:mx-20">
+        {auctions.data.map((auction) => (
+          <AuctionCard key={auction.id} auction={auction} />
+        ))}
+      </div>
     </div>
   );
 }

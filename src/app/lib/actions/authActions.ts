@@ -24,6 +24,7 @@ export async function logout() {
   cookieStore.delete("session_token");
   if (cookieStore.get("session_token")) {
     console.log(" logout succussfully");
+    redirect("/auctions");
   } else {
     console.log(" hasn't been logout ");
   }

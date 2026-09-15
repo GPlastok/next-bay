@@ -25,37 +25,41 @@ export default function SearchBar() {
     router.push(pathname + "?" + params.toString());
   }
   return (
-    <div>
-      <Select
-        value={status}
-        onValueChange={(value) => updateFilters("status", value)}
-      >
-        <SelectTrigger className="w-48">
-          <SelectValue placeholder="Filter by status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All</SelectItem>
-          <SelectItem value="open">Open</SelectItem>
-          <SelectItem value="closed">Closed</SelectItem>
-        </SelectContent>
-      </Select>
-      <div>
-        <Label htmlFor="maxPrice">Max Price</Label>
-        <Input
-          id="maxPrice"
-          type="number"
-          value={maxPrice}
-          onChange={(e) => updateFilters("maxPrice", e.target.value)}
-        />
+    <div className="flex flex-col">
+      <div className="flex p-4">
+        <Select
+          value={status}
+          onValueChange={(value) => updateFilters("status", value)}
+        >
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="open">Open</SelectItem>
+            <SelectItem value="closed">Closed</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-       <div>
-        <Label htmlFor="minPrice">Min Price</Label>
-        <Input
-          id="minPrice"
-          type="number"
-          value={minPrice}
-          onChange={(e) => updateFilters("minPrice", e.target.value)}
-        />
+      <div className="flex gap-2">
+        <div>
+          <Label htmlFor="maxPrice">Max Price</Label>
+          <Input
+            id="maxPrice"
+            type="number"
+            value={maxPrice}
+            onChange={(e) => updateFilters("maxPrice", e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="minPrice">Min Price</Label>
+          <Input
+            id="minPrice"
+            type="number"
+            value={minPrice}
+            onChange={(e) => updateFilters("minPrice", e.target.value)}
+          />
+        </div>
       </div>
     </div>
   );
