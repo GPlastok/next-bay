@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { userRegister } from "@/app/auth/login/actions";
+import { userRegister } from "@/app/lib/actions/authActions";
 
 //TODO: using react hook form to display error
 export default function LoginPage() {

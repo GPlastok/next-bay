@@ -1,4 +1,4 @@
-import { logout } from "@/app/auth/login/actions";
+import { logout } from "@/app/lib/actions/authActions";
 
 export default function LogoutLink() {
   return (
