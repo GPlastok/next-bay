@@ -1,4 +1,5 @@
 import { fetchAPI } from "@/app/lib/utlities/helpers";
+import { error } from "console";
 const api_url = process.env.API_URL;
 
 export type Auction = {
@@ -75,8 +76,8 @@ export async function createAuction(
     body: JSON.stringify(auction),
   });
 
-  if (response.status == 201) {
-    return true;
-  }
-  return false;
+  return response.json;
+  //   if (!response.ok) {
+  //     throw new Error(response.statusText);
+  //   }
 }
