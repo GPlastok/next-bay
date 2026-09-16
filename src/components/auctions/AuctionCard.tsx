@@ -7,9 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import CreateOffer from "./CreateOffer";
+import CreateOffer from "../offers/CreateOffer";
+import { cookies } from "next/headers";
 
-export default function AuctionCard({ auction }: { auction: Auction }) {
+export default async function AuctionCard({ auction }: { auction: Auction }) {
+  const cookie = await cookies();
+  const isAuthenticated = cookie.get("session_token");
   return (
     <Card
       key={auction.id}
@@ -27,7 +30,9 @@ export default function AuctionCard({ auction }: { auction: Auction }) {
           Selling Price:{" "}
           {auction.currentPrice ? auction.currentPrice : auction.sellingPrice}
         </p>
-        <CreateOffer />
+        {isAuthenticated && (
+          <CreateOffer auctionId={auction.id} />
+        )}
       </CardContent>
     </Card>
   );

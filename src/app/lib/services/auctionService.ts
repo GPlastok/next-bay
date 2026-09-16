@@ -3,86 +3,106 @@ import { error } from "console";
 const api_url = process.env.API_URL;
 
 export type Auction = {
-    id: string;
-    title: string;
-    description: string;
-    sellingPrice: string;
-    currentPrice: string;
-    endDate: Date;
-    createdAt: Date;
-    offers?: Offer[];
+  id: string;
+  title: string;
+  description: string;
+  sellingPrice: string;
+  currentPrice: string;
+  endDate: Date;
+  createdAt: Date;
+  offers?: Offer[];
 };
 
 export type Offer = {
-    id: string;
-    auctionId: string;
-    biddingPrice: number;
-    bidderId: string;
-    createdAt: Date;
+  id: string;
+  auctionId: string;
+  biddingPrice: string;
+  bidderId: string;
+  createdAt: Date;
 };
+export type CreateOfferData = Pick<Offer, "auctionId" | "biddingPrice">;
 
 export type AuctionResponse = {
-    data: Auction[];
-    meta: {
-        page: number;
-        limit: number;
-        total: number;
-        totalPage: number;
-    };
+  data: Auction[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
 };
 
 export type QueryParams = {
-    status?: string;
-    maxPrice?: number;
-    minPrice?: number;
+  status?: string;
+  maxPrice?: number;
+  minPrice?: number;
 };
 
 export async function getAllAuctions(
-    queryParam?: QueryParams,
+  queryParam?: QueryParams,
 ): Promise<AuctionResponse> {
-    const searchParams = new URLSearchParams();
-    if (queryParam?.status) {
-        searchParams.set("status", queryParam.status);
-    }
-    if (queryParam?.maxPrice) {
-        searchParams.set("maxPrice", queryParam.maxPrice.toString());
-    }
-    if (queryParam?.minPrice) {
-        searchParams.set("minPrice", queryParam.minPrice.toString());
-    }
-    const response = await fetch(`${api_url}/auction?${searchParams.toString()}`);
-    if (!response) {
-        throw new Error("Auction fetch failed");
-    }
-    return response.json();
+  const searchParams = new URLSearchParams();
+  if (queryParam?.status) {
+    searchParams.set("status", queryParam.status);
+  }
+  if (queryParam?.maxPrice) {
+    searchParams.set("maxPrice", queryParam.maxPrice.toString());
+  }
+  if (queryParam?.minPrice) {
+    searchParams.set("minPrice", queryParam.minPrice.toString());
+  }
+  const response = await fetch(`${api_url}/auction?${searchParams.toString()}`);
+  if (!response) {
+    throw new Error("Auction fetch failed");
+  }
+  return response.json();
 }
 
 export async function getAuctionById(id: string): Promise<Auction> {
-    const response = await fetch(`${api_url}/auction/${id}`);
-    if (!response) {
-        throw new Error("Auction fetch failed");
-    }
-    return response.json();
+  const response = await fetch(`${api_url}/auction/${id}`);
+  if (!response) {
+    throw new Error("Auction fetch failed");
+  }
+  return response.json();
 }
 
 export async function createAuction(
-    auction: Omit<Auction, "id" | "createdAt">,
+  auction: Omit<Auction, "id" | "createdAt">,
 ) {
-    const response = await fetchAPI(`${api_url}/auction`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(auction),
-    });
+  const response = await fetchAPI(`${api_url}/auction`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(auction),
+  });
 
-    if (!response.ok) {
-        const error = await response.json();
+  if (!response.ok) {
+    const error = await response.json();
 
-        throw new Error(
-            error.message ?? "Failed to create auction"
-        );
-    }
+    throw new Error(
+      error.message ?? "Failed to create auction"
+    );
+  }
 
-    return true;
+  return true;
+}
+
+export async function createOffer(offerData: CreateOfferData) {
+  const response = await fetchAPI(`${api_url}/offer`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(offerData),
+  });
+
+  if (!response.ok) {
+    const body = await response.json();
+
+    throw new Error(
+      body.message ?? "This offer cannot be accepted.",
+    );
+  }
+  return response.json;
 }

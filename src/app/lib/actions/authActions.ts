@@ -38,7 +38,7 @@ export async function userRegister(formData: FormData) {
   }
   const user = await createUser(username, password);
   if (user) {
-    redirect("/auth/login");
+    redirect("/Auth/login");
   } else {
     throw Error("User hasn't been created");
   }

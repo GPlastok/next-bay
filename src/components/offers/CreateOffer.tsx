@@ -12,8 +12,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import React from "react";
 import { useForm } from "react-hook-form";
 import {
   Field,
@@ -22,25 +20,47 @@ import {
   FieldLabel,
   FieldSet,
 } from "@/components/ui/field";
-import { Offer } from "@/app/lib/services/auctionService";
+import { CreateOfferData } from "@/app/lib/services/auctionService";
+import { addOffer } from "@/app/lib/actions/offerAction";
+import { useState } from "react";
 
 type OfferAuction = {
   auctionId: string;
 };
 
 export default function CreateOffer({ auctionId }: OfferAuction) {
+  const [open, setOpen] = useState(false);
   const {
     register,
     handleSubmit,
+    setError,
+    reset,
     formState: { errors },
-  } = useForm<Offer>();
+  } = useForm<CreateOfferData>();
 
-  function onSumbit(data: Offer) {
-    // addOffer(data);
+  async function onSumbit(data: CreateOfferData) {
+    const result = await addOffer({
+      auctionId,
+      biddingPrice: data.biddingPrice
+    })
+
+    if (!result.success) {
+      setError("root", {
+        message: result.error,
+      });
+
+      return;
+    }
+    else {
+      setOpen(false);
+      reset();
+    }
+
+
   }
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="outline">Make New Offer</Button>
       </SheetTrigger>
@@ -72,6 +92,12 @@ export default function CreateOffer({ auctionId }: OfferAuction) {
                   {errors.biddingPrice && (
                     <p className="text-red-500  text-sm">
                       {errors.biddingPrice.message}
+                    </p>
+                  )}
+
+                  {errors.root && (
+                    <p className="text-sm text-destructive">
+                      {errors.root.message}
                     </p>
                   )}
                 </Field>
