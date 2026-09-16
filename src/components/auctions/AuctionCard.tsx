@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import CreateOffer from "./CreateOffer";
 
 export default function AuctionCard({ auction }: { auction: Auction }) {
   return (
@@ -26,6 +27,7 @@ export default function AuctionCard({ auction }: { auction: Auction }) {
           Selling Price:{" "}
           {auction.currentPrice ? auction.currentPrice : auction.sellingPrice}
         </p>
+        <CreateOffer />
       </CardContent>
     </Card>
   );

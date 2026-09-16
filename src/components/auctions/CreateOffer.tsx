@@ -1,0 +1,91 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import React from "react";
+import { useForm } from "react-hook-form";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field";
+import { Offer } from "@/app/lib/services/auctionService";
+
+type OfferAuction = {
+  auctionId: string;
+};
+
+export default function CreateOffer({ auctionId }: OfferAuction) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Offer>();
+
+  function onSumbit(data: Offer) {
+    // addOffer(data);
+  }
+
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Make New Offer</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>New Offer</SheetTitle>
+          <SheetDescription>Add an offer for this auction</SheetDescription>
+        </SheetHeader>
+        <form onSubmit={handleSubmit(onSumbit)}>
+          <div className="grid flex-1 auto-rows-min gap-6 px-4">
+            <FieldSet className="w-full max-w-xs">
+              <FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor="biddingPrice">Offer Amount</FieldLabel>
+                  <Input
+                    id="offerAmount"
+                    type="number"
+                    placeholder="1000"
+                    {...register("biddingPrice", {
+                      required: "offer amount is required",
+                      min: {
+                        value: 1,
+                        message: "Offer amount must be at least 1",
+                      },
+                      valueAsNumber: true,
+                    })}
+                  />
+                  <FieldDescription>Provide offer amount</FieldDescription>
+                  {errors.biddingPrice && (
+                    <p className="text-red-500  text-sm">
+                      {errors.biddingPrice.message}
+                    </p>
+                  )}
+                </Field>
+              </FieldGroup>
+            </FieldSet>
+          </div>
+          <SheetFooter>
+            <Button type="submit">Save Offer</Button>
+            <SheetClose asChild>
+              <Button variant="outline">Close</Button>
+            </SheetClose>
+          </SheetFooter>
+        </form>
+      </SheetContent>
+    </Sheet>
+  );
+}
