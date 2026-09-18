@@ -41,22 +41,20 @@ export default function CreateOffer({ auctionId }: OfferAuction) {
   async function onSumbit(data: CreateOfferData) {
     const result = await addOffer({
       auctionId,
-      biddingPrice: data.biddingPrice
-    })
+      biddingPrice: data.biddingPrice,
+    });
 
+    // COMMENT, TODO: check errors from other sources except root too. (more precise)
     if (!result.success) {
       setError("root", {
         message: result.error,
       });
 
       return;
-    }
-    else {
+    } else {
       setOpen(false);
       reset();
     }
-
-
   }
 
   return (

@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 const api_url = process.env.API_URL;
 
-
 export async function login(username: string, password: string) {
   const response = await fetch(`${api_url}/auth/login`, {
     method: "POST",

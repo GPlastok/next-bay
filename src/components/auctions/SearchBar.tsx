@@ -1,5 +1,8 @@
 "use client";
 
+// COMMENT, TODO: CHANGE TO SERVER FUNCTION:
+// --> see comments below:
+
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -11,6 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+// form makin it a servr function:
+// get rid of this, pass params from page url and use them as props.
 export default function SearchBar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -25,6 +30,7 @@ export default function SearchBar() {
     router.push(pathname + "?" + params.toString());
   }
   return (
+    // turn into a form instead of div and pass the results to the url
     <div className="flex flex-col">
       <div className="flex p-4">
         <Select
